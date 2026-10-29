@@ -27,9 +27,27 @@ nav a{position:relative;padding:4px 0}nav a:after{content:"";position:absolute;l
 .burger{width:42px;height:42px;background:none;border:0;flex-direction:column;justify-content:center;align-items:center;gap:6px}
 .burger i{width:24px;height:3px;background:currentColor;border-radius:2px;transition:transform .4s,opacity .3s}
 .open .burger i:nth-child(1){transform:translateY(9px) rotate(45deg)}.open .burger i:nth-child(2){opacity:0}.open .burger i:nth-child(3){transform:translateY(-9px) rotate(-45deg)}
-@media(max-width:900px){.burger{display:flex}.hr .btn{display:none}.mo{display:flex}
-nav{position:fixed;top:84px;right:10px;bottom:10px;width:min(86vw,340px);flex-direction:column;gap:6px;padding:24px;background:var(--bg);color:var(--t);border:var(--bd);border-radius:22px;transform:translateX(115%);transition:transform .5s cubic-bezier(.77,0,.18,1);overflow-y:auto}
-.open nav{transform:none}nav a{padding:12px 0;font:700 1.3rem 'Bricolage Grotesque';border-bottom:1px solid #ffffff1f}nav .btn{margin-top:10px;font-size:.9rem}}
+@media(max-width:900px){
+ .burger{display:flex;position:relative;z-index:102}
+ .hr .btn{display:none}
+ .mo{display:flex}
+ /* Anchor the menu to the header: backdrop-filter can trap fixed children. */
+ .hd nav{
+  position:absolute;top:calc(100% + 12px);right:0;left:auto;bottom:auto;
+  width:min(88vw,360px);height:calc(100dvh - 100px);max-height:720px;
+  display:flex;flex-direction:column;align-items:stretch;gap:6px;padding:22px;
+  background:#15112b;color:#f4f1ff;border:1px solid #ffffff35;border-radius:22px;
+  box-shadow:0 24px 70px #0009;transform:translateX(calc(100% + 30px));
+  visibility:hidden;pointer-events:none;opacity:0;
+  transition:transform .32s cubic-bezier(.2,.7,.2,1),opacity .22s ease,visibility .22s;
+  overflow-y:auto;overscroll-behavior:contain;z-index:101;
+ }
+ .hd.open nav{transform:translateX(0);visibility:visible;pointer-events:auto;opacity:1}
+ .hd nav a{display:flex;align-items:center;min-height:46px;padding:10px 2px;font:700 1.15rem 'Bricolage Grotesque';border-bottom:1px solid #ffffff1f}
+ .hd nav a.btn{justify-content:center;padding:12px 16px;border:2px solid #111;margin-top:8px;font-size:.9rem}
+ .hd nav a.btn.o{border-color:#ffffff70}
+}
+@media(max-width:420px){.hd nav{width:calc(100vw - 20px);right:0;padding:18px}.logo b{font-size:1rem}.logo small{font-size:.56rem}}
 main{padding-top:84px}
 .sec{padding:clamp(40px,8vw,90px) clamp(14px,4vw,40px);max-width:1200px;margin:auto}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:20px}

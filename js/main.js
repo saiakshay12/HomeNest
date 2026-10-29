@@ -10,10 +10,19 @@ document.body.insertAdjacentHTML('afterbegin',`<div class="pt">Home Nest</div>
 <nav id="nav">${L.map(l=>`<a href="${l[0]}" class="${l[0]==cur?'on':''}">${l[1]}</a>`).join('')}${M.map(l=>`<a class="mo" href="${l[0]}">${l[1]}</a>`).join('')}<a class="btn o mo" href="login.html">Login</a><a class="btn mo" href="login.html#up">Sign Up</a></nav>
 <div class="hr"><a class="ib" href="bookings.html" aria-label="Favorites" data-cur="Saved">♡</a><a class="btn o" href="login.html">Login</a><a class="btn" href="login.html#up">Sign Up</a><button class="burger" aria-label="Menu" aria-expanded="false"><i></i><i></i><i></i></button></div></header>`);
 document.body.insertAdjacentHTML('beforeend','<footer class="foot"><p>© 2026 Home Nest · Find Your Perfect Space</p></footer>');
-const hd=$('.hd'),bg=$('.burger');
-const tog=f=>{const o=f??!hd.classList.contains('open');hd.classList.toggle('open',o);document.body.classList.toggle('lock',o);bg.setAttribute('aria-expanded',o)};
-bg.onclick=()=>tog();$('#nav').onclick=e=>e.target.closest('a')&&tog(false);
-addEventListener('keydown',e=>e.key==='Escape'&&tog(false));addEventListener('resize',()=>innerWidth>900&&tog(false));
+const hd=$('.hd'),bg=$('.burger'),nav=$('#nav');
+const tog=f=>{
+ const o=f??!hd.classList.contains('open');
+ hd.classList.toggle('open',o);
+ document.body.classList.toggle('lock',o && innerWidth<=900);
+ bg.setAttribute('aria-expanded',String(o));
+ bg.setAttribute('aria-label',o?'Close menu':'Open menu');
+};
+bg.onclick=()=>tog();
+nav.addEventListener('click',e=>{if(e.target.closest('a'))tog(false)});
+document.addEventListener('click',e=>{if(hd.classList.contains('open')&&!hd.contains(e.target))tog(false)});
+addEventListener('keydown',e=>e.key==='Escape'&&tog(false));
+addEventListener('resize',()=>{if(innerWidth>900)tog(false)});
 /* page transitions */
 const pt=$('.pt');const reveal=()=>{pt.style.transition='none';pt.style.transform='none';requestAnimationFrame(()=>requestAnimationFrame(()=>{pt.style.transition='';pt.style.transform='translateY(-100%)'}))};reveal();
 addEventListener('pageshow',e=>e.persisted&&reveal());
