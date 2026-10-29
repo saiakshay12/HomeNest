@@ -1,0 +1,58 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Login · Home Nest</title><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/style.css"></head><body data-p="login"><div class="preloader" id="preloader" role="status" aria-label="Loading Home Nest"><div class="loader-mark">⌂</div><div class="loader-word">HOME <span>NEST</span></div><div class="loader-track"><i></i></div><small>FIND YOUR PLACE IN THE WORLD</small></div><main class="split"><section class="l"><h1 id="ttl" style="font-size:clamp(1.8rem,5vw,2.4rem)">Welcome Back !</h1><p>Sign in or create a demo profile to continue exploring amazing properties.</p>
+<form id="lf" class="fld" style="max-width:380px;gap:12px" novalidate><label class="fld" id="nm" style="display:none">Full name<input placeholder="Your name"></label><label class="fld">Email or Mobile Number<input id="id" placeholder="Enter your email or mobile number"></label><div class="err" id="e1"></div>
+<label class="fld">Password<span><input id="pw" type="password" placeholder="Enter your password"><button type="button" class="eye" id="eye" aria-label="Show password">👁</button></span></label><div class="err" id="e2"></div>
+<div class="row" style="margin:0"><label><input type="checkbox" style="width:auto"> Remember me</label><a href="#" style="color:var(--b)">Forgot password?</a></div><button class="btn" id="go" data-cur="Enter">Login</button></form>
+<p style="max-width:380px;text-align:center">Or continue with</p><div class="soc" style="max-width:380px"><button>Google</button><button>Facebook</button><button>Apple</button></div>
+<p class="demo-auth-note" style="max-width:380px;font-size:.75rem;color:var(--m)">Frontend demo: any details can be used to continue. No server authentication.</p><p id="alt">Don’t have an account? <a id="sw" href="#" style="color:var(--b);font-weight:600">Sign Up</a></p></section>
+<section class="r"><h2 data-split>Your Dream Home Is Just a Login Away</h2><p class="rv" style="--i:8;margin-top:12px;max-width:38ch">Discover the best properties, exclusive deals and a smarter way to find your perfect space.</p></section></main>
+
+<script>
+/* Isolated frontend demo auth: independent of the rest of the site's interactions. */
+(function(){
+ const $=s=>document.querySelector(s), form=$('#lf');
+ if(!form)return;
+ let signup=location.hash==='#up';
+ const nameWrap=$('#nm'), nameInput=nameWrap.querySelector('input'), idInput=$('#id'), pw=$('#pw');
+ function mode(){
+  $('#ttl').textContent=signup?'Find your place in the world.':'Welcome back to Home Nest.';
+  nameWrap.style.display=signup?'grid':'none';nameInput.required=signup;
+  $('#go').textContent=signup?'Create account':'Login';
+  $('#sw').textContent=signup?'Log in':'Sign up';
+  $('#alt').firstChild.textContent=signup?'Already have an account? ':'New to Home Nest? ';
+  $('#e1').textContent='';$('#e2').textContent='';
+ }
+ mode();
+ $('#sw').addEventListener('click',function(e){
+  e.preventDefault();e.stopImmediatePropagation();signup=!signup;
+  history.replaceState(null,'',signup?'#up':location.pathname);mode();
+ },true);
+ $('#eye').addEventListener('click',function(e){
+  e.stopImmediatePropagation();const show=pw.type==='password';pw.type=show?'text':'password';
+  $('#eye').setAttribute('aria-label',show?'Hide password':'Show password');
+ },true);
+ form.addEventListener('submit',function(e){
+  e.preventDefault();e.stopImmediatePropagation();
+  const id=(idInput.value.trim()||'guest-'+Date.now()).toLowerCase();
+  const password=pw.value||'demo';
+  const name=nameInput.value.trim()||id.split('@')[0]||'Home Nest Guest';
+  try{sessionStorage.setItem('homenest-demo-user',JSON.stringify({id,name,mode:signup?'signup':'login'}));}catch(_){}
+  if(signup){
+   try{
+    const users=JSON.parse(localStorage.getItem('homenest-demo-users')||'[]');
+    const old=users.find(u=>String(u.id).toLowerCase()===id);
+    if(old){old.password=password;old.name=name;}else users.push({id,password,name});
+    localStorage.setItem('homenest-demo-users',JSON.stringify(users));
+   }catch(_){}
+  }
+  const go=$('#go');go.disabled=true;go.textContent='Opening dashboard…';
+  const loader=$('#preloader');if(loader)loader.classList.add('done');
+  location.href='bookings.html';
+ },true);
+})();
+</script>
+<script>
+/* Failsafe for the decorative loader, including when an unrelated script errors. */
+(function(){const l=document.getElementById('preloader');if(!l)return;setTimeout(()=>l.classList.add('done'),900);})();
+</script>
+
+<script src="js/main.js"></script></body></html>

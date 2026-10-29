@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Explore Properties · Home Nest</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css"></head>
+<body data-p="list"><div class="preloader" id="preloader" role="status" aria-label="Loading Home Nest"><div class="loader-mark">⌂</div><div class="loader-word">HOME <span>NEST</span></div><div class="loader-track"><i></i></div><small>FIND YOUR PLACE IN THE WORLD</small></div>
+<main class="sec listings-page">
+  <div class="listing-hero">
+    <p class="section-kicker">THE HOME COLLECTION</p>
+    <h1>Find a place<br>to <em>belong.</em></h1>
+    <p class="listing-intro">Explore considered homes, from easy city apartments to spaces made for slow Sundays.</p>
+    <form class="listing-filter card" id="filter-form">
+      <label>Search location or home<input id="filter-query" placeholder="Try Whitefield, villa..." type="search"></label>
+      <label>Home type<select id="filter-type"><option value="">All home types</option><option value="Apartment">Apartment</option><option value="Villa">Villa</option><option value="Studio">Studio</option><option value="House">House</option></select></label>
+      <label>Budget<select id="filter-budget"><option value="">Any budget</option><option value="under25">Under ₹25,000 / month</option><option value="25plus">₹25,000+ / month</option><option value="sale">For sale</option></select></label>
+      <button class="btn" type="submit">Find homes ↗</button>
+    </form>
+  </div>
+  <div class="listing-toolbar"><div><span class="section-kicker">HANDPICKED FOR YOU</span><h2>Spaces with <em>character.</em></h2></div><p id="result-count" aria-live="polite">Showing homes</p></div>
+  <div class="grid listings-grid" id="property-grid" data-stg></div>
+  <div id="no-results" class="card no-results" hidden><h3>No homes found just yet.</h3><p>Try a different location or loosen your filters.</p><button class="btn o" id="clear-filters" type="button">Clear filters</button></div>
+</main><script>setTimeout(()=>document.getElementById("preloader")?.classList.add("done"),900);</script>
+<script src="js/main.js"></script></body></html>
